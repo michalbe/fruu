@@ -1,0 +1,5 @@
+var slides = [
+  {
+    title: "hello"
+  }
+];
