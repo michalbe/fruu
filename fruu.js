@@ -6,12 +6,13 @@ var emitter;
 var index;
 var randomBehaviour;
 var gravity;
+var slide = 'heyka';
 
 Main();
 function Main() {
 	canvas = document.getElementById("testCanvas");
-	canvas.width = 1003;
-	canvas.height = 610;
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 	context = canvas.getContext('2d');
 	context.globalCompositeOperation = "lighter";
 
