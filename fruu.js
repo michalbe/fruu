@@ -3,6 +3,7 @@ var context;
 var proton;
 var renderer;
 var emitter;
+var textInit;
 var index;
 var randomBehaviour;
 var gravity;
@@ -18,11 +19,13 @@ function Main() {
 	context.globalCompositeOperation = "lighter";
   proton = new Proton;
   emitter = new Proton.Emitter();
-
+  createProton();
   loadImage();
   setTimeout(function() {
     i++;
-    loadImage();
+    randomBehaviour.reset(50, 50, .1);
+		gravity.reset(0);
+    setTimeout(loadImage, 1000);
   }, 3000);
 }
 
@@ -33,26 +36,32 @@ function loadImage() {
   context.font = "300px Arial";
   context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
   context.fillText(slide[i], 100, 200);
-	createProton(rect);
+	// createProton(rect);
+  emitter.removeInitialize(textInit);
+  var imagedata = context.getImageData(rect.x, rect.y, rect.width, rect.height);
+	textInit = emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, rect.x, rect.y + 50)));
+  randomBehaviour.reset(2, 2, .2);
+	gravity.reset(0);
 	tick();
 }
 
 function createProton(rect) {
-  emitter.removeInitializers();
-  emitter.removeAllBehaviours();
-  emitter.removeAllParticles();
-  emitter.stopEmit();
-  proton.removeEmitter(emitter);
+  // emitter.removeInitializers();
+  // emitter.removeAllBehaviours();
+  // emitter.removeAllParticles();
+  // emitter.stopEmit();
+  // proton.removeEmitter(emitter);
+
+  // randomBehaviour.reset(2, 2, .2);
+	// gravity.reset(0);
 
 	//setRate
 	emitter.rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
 	//addInitialize
 	emitter.addInitialize(new Proton.Position(new Proton.PointZone(0, 0)));
 	emitter.addInitialize(new Proton.Mass(1));
-	emitter.addInitialize(new Proton.Radius(1, 10));
+	emitter.addInitialize(new Proton.Radius(1, 5));
 	emitter.addInitialize(new Proton.Life(2));
-	var imagedata = context.getImageData(rect.x, rect.y, rect.width, rect.height);
-	emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, rect.x, rect.y + 50)));
 	//addBehaviour
 
 	randomBehaviour = new Proton.RandomDrift(2, 2, .2);
