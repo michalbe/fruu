@@ -7,8 +7,13 @@ var textInit;
 var index;
 var randomBehaviour;
 var gravity;
-var slide = ['grunt', 'jquery'];
-var i = 0;
+// var slide = ['grunt', 'jquery'];
+
+var defaults = {
+  fontSize: 300
+};
+
+var currentSlide = 0;
 Main();
 
 function Main() {
@@ -20,14 +25,33 @@ function Main() {
   proton = new Proton;
   emitter = new Proton.Emitter();
   createProton();
+
   loadImage();
-  setTimeout(function() {
-    i++;
-    randomBehaviour.reset(50, 50, .1);
-		gravity.reset(0);
-    setTimeout(loadImage, 1000);
-  }, 3000);
 }
+
+var changeSlide = function(dir) {
+  if (currentSlide + dir === -1 || currentSlide + dir === slides.slides.length) {
+    return;
+  }
+  
+  currentSlide += dir;
+  randomBehaviour.reset(50, 50, .1);
+  gravity.reset(0);
+  setTimeout(loadImage, 1000);
+}
+
+document.addEventListener('keyup', function(e) {
+  switch(e.keyCode) {
+    case 37:
+      changeSlide(-1);
+      break;
+    case 13:
+    case 32:
+    case 39:
+      changeSlide(1);
+      break;
+  }
+});
 
 function loadImage() {
 	// var rect = new Proton.Rectangle((canvas.width - e.target.width) / 2, (canvas.height - e.target.height) / 2, e.target.width, e.target.height);
@@ -35,7 +59,8 @@ function loadImage() {
 	// context.drawImage(e.target, rect.x, rect.y);
   context.font = "300px Arial";
   context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
-  context.fillText(slide[i], 100, 200);
+  context.fillText(slides.slides[currentSlide].text, window.innerWidth/2, window.innerHeight/2);
+  context.textAlign = 'center';
 	// createProton(rect);
   emitter.removeInitialize(textInit);
   var imagedata = context.getImageData(rect.x, rect.y, rect.width, rect.height);
@@ -46,21 +71,12 @@ function loadImage() {
 }
 
 function createProton(rect) {
-  // emitter.removeInitializers();
-  // emitter.removeAllBehaviours();
-  // emitter.removeAllParticles();
-  // emitter.stopEmit();
-  // proton.removeEmitter(emitter);
-
-  // randomBehaviour.reset(2, 2, .2);
-	// gravity.reset(0);
-
 	//setRate
-	emitter.rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
+	emitter.rate = new Proton.Rate(new Proton.Span(30, 15), new Proton.Span(.02));
 	//addInitialize
 	emitter.addInitialize(new Proton.Position(new Proton.PointZone(0, 0)));
 	emitter.addInitialize(new Proton.Mass(1));
-	emitter.addInitialize(new Proton.Radius(1, 5));
+	emitter.addInitialize(new Proton.Radius(1, 10));
 	emitter.addInitialize(new Proton.Life(2));
 	//addBehaviour
 
