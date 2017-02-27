@@ -33,11 +33,11 @@ var changeSlide = function(dir) {
   if (currentSlide + dir === -1 || currentSlide + dir === slides.slides.length) {
     return;
   }
-  
+
   currentSlide += dir;
   randomBehaviour.reset(50, 50, .1);
   gravity.reset(0);
-  setTimeout(loadImage, 1000);
+  setTimeout(loadImage, 500);
 }
 
 document.addEventListener('keyup', function(e) {
@@ -57,7 +57,7 @@ function loadImage() {
 	// var rect = new Proton.Rectangle((canvas.width - e.target.width) / 2, (canvas.height - e.target.height) / 2, e.target.width, e.target.height);
 	var rect = new Proton.Rectangle(0, 0,  window.innerWidth, window.innerHeight);
 	// context.drawImage(e.target, rect.x, rect.y);
-  context.font = "300px Arial";
+  context.font = (slides.slides[currentSlide].fontSize || defaults.fontSize) + "px Arial";
   context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
   context.fillText(slides.slides[currentSlide].text, window.innerWidth/2, window.innerHeight/2);
   context.textAlign = 'center';
@@ -72,11 +72,11 @@ function loadImage() {
 
 function createProton(rect) {
 	//setRate
-	emitter.rate = new Proton.Rate(new Proton.Span(30, 15), new Proton.Span(.02));
+	emitter.rate = new Proton.Rate(new Proton.Span(20, 15), new Proton.Span(.02));
 	//addInitialize
 	emitter.addInitialize(new Proton.Position(new Proton.PointZone(0, 0)));
 	emitter.addInitialize(new Proton.Mass(1));
-	emitter.addInitialize(new Proton.Radius(1, 10));
+	emitter.addInitialize(new Proton.Radius(5, 8));
 	emitter.addInitialize(new Proton.Life(2));
 	//addBehaviour
 
