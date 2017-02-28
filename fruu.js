@@ -14,6 +14,10 @@ var defaults = {
 };
 
 var currentSlide = 0;
+
+if (window.location.hash) {
+  currentSlide = parseInt(window.location.hash.replace('#', ''), 10);
+}
 Main();
 
 function Main() {
@@ -35,6 +39,9 @@ var changeSlide = function(dir) {
   }
 
   currentSlide += dir;
+
+  window.location.hash = '#' + currentSlide;
+
   randomBehaviour.reset(50, 50, .1);
   gravity.reset(0);
   setTimeout(loadImage, 500);
