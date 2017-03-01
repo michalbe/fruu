@@ -7,6 +7,7 @@ var textInit;
 var index;
 var randomBehaviour;
 var gravity;
+var outputCanvas;
 // var slide = ['grunt', 'jquery'];
 
 var defaults = {
@@ -21,11 +22,13 @@ if (window.location.hash) {
 Main();
 
 function Main() {
-	canvas = document.getElementById("testCanvas");
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+  outputCanvas = document.getElementById("fruu");
+
+	canvas = document.getElementById("textCanvas");
+	outputCanvas.width = canvas.width = window.innerWidth;
+	outputCanvas.height = canvas.height = window.innerHeight;
+
 	context = canvas.getContext('2d');
-	context.globalCompositeOperation = "lighter";
   proton = new Proton;
   emitter = new Proton.Emitter();
   createProton();
@@ -99,7 +102,7 @@ function createProton(rect) {
 	proton.addEmitter(emitter);
 
 	//canvas renderer
-	renderer = new Proton.Renderer('canvas', proton, canvas);
+	renderer = new Proton.Renderer('webgl', proton, outputCanvas);
 	renderer.start();
 
 	//debug
