@@ -82,11 +82,12 @@ function loadImage() {
 
 function createProton(rect) {
 	//setRate
-	emitter.rate = new Proton.Rate(new Proton.Span(20, 15), new Proton.Span(.02));
+	emitter.rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
+	// emitter.rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
 	//addInitialize
 	emitter.addInitialize(new Proton.Position(new Proton.PointZone(0, 0)));
 	emitter.addInitialize(new Proton.Mass(1));
-	emitter.addInitialize(new Proton.Radius(5, 8));
+	emitter.addInitialize(new Proton.Radius(4, 7));
 	emitter.addInitialize(new Proton.Life(2));
 	//addBehaviour
 
@@ -95,7 +96,9 @@ function createProton(rect) {
 	emitter.addBehaviour(customScaleBehaviour());
 	emitter.addBehaviour(gravity);
 	emitter.addBehaviour(randomBehaviour);
-	emitter.addBehaviour(new Proton.Color(['#00aeff', '#0fa954', '#54396e', '#e61d5f']));
+	// emitter.addBehaviour(new Proton.Color(['#00aeff', '#0fa954', '#54396e', '#e61d5f']));
+  emitter.addBehaviour(new Proton.Color(['random']));
+  emitter.addBehaviour(new Proton.Alpha(1, 0));
 	emitter.addBehaviour(new Proton.CrossZone(new Proton.RectZone(0, 0, canvas.width, canvas.height), 'collision'));
 	emitter.emit();
 	//add emitter
