@@ -34,6 +34,7 @@ function Main() {
   emitter = new Proton.Emitter();
   createProton();
   loadImage();
+  tick();
 }
 
 var changeSlide = function(dir) {
@@ -45,7 +46,7 @@ var changeSlide = function(dir) {
 
   window.location.hash = '#' + currentSlide;
 
-  randomBehaviour.reset(50, 50, .1);
+  randomBehaviour.reset(30, 20, .01);
   gravity.reset(0);
   setTimeout(loadImage, 500);
 }
@@ -65,21 +66,23 @@ document.addEventListener('keyup', function(e) {
 
 function loadImage() {
 	// var rect = new Proton.Rectangle((canvas.width - e.target.width) / 2, (canvas.height - e.target.height) / 2, e.target.width, e.target.height);
-	var rect = new Proton.Rectangle(0, 0,  window.innerWidth, window.innerHeight);
+	// var rect = new Proton.Rectangle(0, 0,  window.innerWidth, window.innerHeight);
 	// context.drawImage(e.target, rect.x, rect.y);
   context.font = "500px Arial";
   // context.font = (slides.slides[currentSlide].fontSize || defaults.fontSize) + "px Arial";
   context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
   context.textAlign = 'center';
-  context.fillText(slides.slides[currentSlide].text, window.innerWidth/2, window.innerHeight/2, window.innerWidth*0.85);
+  context.fillText(slides.slides[currentSlide], window.innerWidth/2, window.innerHeight/2, window.innerWidth*0.95);
+  // context.fillText(slides.slides[currentSlide].text, window.innerWidth/2, window.innerHeight/2, window.innerWidth*0.85);
 	// createProton(rect);
   emitter.removeInitialize(textInit);
-  var imagedata = context.getImageData(rect.x, rect.y, rect.width, rect.height);
-	textInit = emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, rect.x, rect.y + 50)));
+  var imagedata = context.getImageData(0, 0,  window.innerWidth, window.innerHeight);
+  // var imagedata = context.getImageData(rect.x, rect.y, rect.width, rect.height);
+	textInit = emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, 0, 50)));
   randomBehaviour.reset(2, 2, .2);
 	gravity.reset(0);
   // emitter.removeAllParticles();
-	tick();
+	//
 }
 
 function createProton(rect) {
@@ -100,7 +103,7 @@ function createProton(rect) {
 	emitter.addBehaviour(randomBehaviour);
 	// emitter.addBehaviour(new Proton.Color(['#00aeff', '#0fa954', '#54396e', '#e61d5f']));
   emitter.addBehaviour(new Proton.Color(['random']));
-  emitter.addBehaviour(new Proton.Alpha(1, 0));
+  emitter.addBehaviour(new Proton.Alpha(1, 0.5));
 	emitter.addBehaviour(new Proton.CrossZone(new Proton.RectZone(0, 0, canvas.width, canvas.height), 'collision'));
 	emitter.emit();
 	//add emitter

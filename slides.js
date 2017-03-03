@@ -1,48 +1,49 @@
 var slides = {
   slides: [
-    {
-      text: "...",
-      // position:
-    },
-    {
-      text: "HYANZA",
-      fontSize: 250
-    },
-    {
-      text: "zanzibar 2014",
-      fontSize: 230
-    },
-    {
-      text: "bonjourpack",
-      fontSize: 200
-    },
-    {
-      text: "2015",
-      fontSize: 550
-    },
-    {
-      text: "JELOcartel",
-      fontSize: 250
-    },
-    {
-      text: "MVP",
-      fontSize: 700,
-    },
-    {
-      text: "pivot",
-      fontSize: 550
-    },
-    {
-      text: "e-commerce",
-      fontSize: 240,
-    },
-    {
-      text: "2016",
-      fontSize: 570,
-    },
-    {
-      text: "glorya",
-      fontSize: 440,
-    }
+    "HYANZA",
+    "zanzibar 2014",
+    "bonjourpack",
+    "2015",
+    "JELOcartel",
+    "apress",
+    "MVP",
+    "pivot",
+    "e-commerce",
+    "2016",
+    "glorya",
+    "(demo?)",
+    "2017",
+    "africa",
+    "+4784",
+    "v0.5",
+    "what's new",
+    "components",
+    "smart search",
+    "no bower",
+    "no jquery",
+    "no grunt",
+    "new config",
+    "index-root",
+    "themes",
+    "build",
+    "l10n",
+    "multi-",
+    "-kurwa-",
+    "-store!",
+    "multistore",
+    "deps tree",
+    "what's missing",
+    "images",
+    "global store",
+    "tests :O",
+    "backend++",
+    "marketplace",
+    "admin",
+    "IE support",
+    "sass, stylus",
+    "php",
+    "thanks",
+    "Q?",
+    "@michalbe"
   ]
 };
