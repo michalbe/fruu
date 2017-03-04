@@ -69,7 +69,6 @@ function loadImage() {
 	// var rect = new Proton.Rectangle(0, 0,  window.innerWidth, window.innerHeight);
 	// context.drawImage(e.target, rect.x, rect.y);
   context.font = "500px Arial";
-  // context.font = (slides.slides[currentSlide].fontSize || defaults.fontSize) + "px Arial";
   context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
   context.textAlign = 'center';
   context.fillText(slides.slides[currentSlide], window.innerWidth/2, window.innerHeight/2, window.innerWidth*0.95);

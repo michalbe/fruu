@@ -1,9 +1,13 @@
 var slides = {
+  header: 'HYANZA',
+  footer: 'MICHALBE',
   slides: [
     "HYANZA",
-    "zanzibar 2014",
+    "2014",
+    "amsterdam",
     "bonjourpack",
     "2015",
+    "zanzibar",
     "JELOcartel",
     "apress",
     "MVP",
