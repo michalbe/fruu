@@ -11,8 +11,11 @@ var outputCanvas;
 // var slide = ['grunt', 'jquery'];
 var textRate;
 var imageRate;
+var colorBehaviour;
+
 var defaults = {
-  fontSize: 300
+  fontSize: 300,
+  color: ['random']
 };
 
 var currentSlide = 0;
@@ -78,8 +81,9 @@ function loadImage() {
 	// var rect = new Proton.Rectangle(0, 0,  window.innerWidth, window.innerHeight);
 	// context.drawImage(e.target, rect.x, rect.y);
   context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
-
+  emitter.removeBehaviour(colorBehaviour);
   if (typeof slides.slides[currentSlide] === 'string') {
+    colorBehaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
     emitter.removeInitialize(textInit);
     emitter.rate = textRate;
     context.font = "500px Arial";
@@ -90,6 +94,11 @@ function loadImage() {
     randomBehaviour.reset(2, 2, .2);
   	gravity.reset(0);
   } else if (typeof slides.slides[currentSlide] === 'object' && slides.slides[currentSlide].image) {
+    if (slides.slides[currentSlide].color) {
+      colorBehaviour = emitter.addBehaviour(new Proton.Color(slides.slides[currentSlide].color));
+    } else {
+      colorBehaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
+    }
     emitter.rate = imageRate;
     var image = new Image()
     image.onload = function(e) {
@@ -121,7 +130,7 @@ function createProton(rect) {
 	emitter.addBehaviour(gravity);
 	emitter.addBehaviour(randomBehaviour);
 	// emitter.addBehaviour(new Proton.Color(['#00aeff', '#0fa954', '#54396e', '#e61d5f']));
-  emitter.addBehaviour(new Proton.Color(['random']));
+  colorBehaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
   emitter.addBehaviour(new Proton.Alpha(1, 0.5));
 	emitter.addBehaviour(new Proton.CrossZone(new Proton.RectZone(0, 0, canvas.width, canvas.height), 'collision'));
 	emitter.emit();
