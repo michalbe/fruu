@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/michalbe/fruu/issues"
   },
-  "homepage": "https://github.com/michalbe/fruu#readme"
+  "homepage": "https://github.com/michalbe/fruu#readme",
+  "dependencies": {
+    "proton": "git+https://github.com/a-jie/Proton.git"
+  }
 }
