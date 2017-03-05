@@ -14,10 +14,14 @@ var slides = {
     "pivot",
     "e-commerce",
     "2016",
-    "glorya",
+    {
+      image: "images/glorya.png"
+    },
     "(demo?)",
     "2017",
-    "africa",
+    {
+      image: "images/africa.png"
+    },
     "+4784",
     "v0.5",
     "what's new",
@@ -27,8 +31,8 @@ var slides = {
     "no jquery",
     "no grunt",
     "new config",
-    "index-root",
     "themes",
+    "index-root",
     "build",
     "l10n",
     "multi-",
@@ -38,7 +42,7 @@ var slides = {
     "deps tree",
     "what's missing",
     "images",
-    "global store",
+    "app state",
     "tests :O",
     "backend++",
     "marketplace",
