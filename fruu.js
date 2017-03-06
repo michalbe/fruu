@@ -88,7 +88,7 @@ function loadImage() {
     emitter.rate = textRate;
     context.font = "500px Arial";
     context.textAlign = 'center';
-    context.fillText(slides.slides[currentSlide], window.innerWidth/2, window.innerHeight/2, window.innerWidth*0.95);
+    context.fillText(slides.slides[currentSlide], window.innerWidth/2, window.innerHeight/2 + 50, window.innerWidth*0.95);
     var imagedata = context.getImageData(0, 0,  window.innerWidth, window.innerHeight);
   	textInit = emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, 0, 50)));
     randomBehaviour.reset(2, 2, .2);
@@ -103,8 +103,9 @@ function loadImage() {
     var image = new Image()
     image.onload = function(e) {
       emitter.removeInitialize(textInit);
-      context.drawImage(e.target, window.innerWidth/2 - e.target.width/2, 50);
-      var imagedata = context.getImageData(0, 0,  window.innerWidth, window.innerHeight);
+      context.textAlign = 'left';
+      fitImageOn(e.target);
+      var imagedata = context.getImageData(0, 0, window.innerWidth, window.innerHeight);
     	textInit = emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, 0, 50)));
       randomBehaviour.reset(2, 2, .2);
     	gravity.reset(0);
@@ -181,3 +182,36 @@ function tick() {
 	requestAnimationFrame(tick);
 	proton.update();
 }
+
+var fitImageOn = function(imageObj) {
+	var imageAspectRatio = imageObj.width / imageObj.height;
+	var canvasAspectRatio = canvas.width / canvas.height;
+	var renderableHeight, renderableWidth, xStart, yStart;
+
+	// If image's aspect ratio is less than canvas's we fit on height
+	// and place the image centrally along width
+	if(imageAspectRatio < canvasAspectRatio) {
+		renderableHeight = canvas.height;
+		renderableWidth = imageObj.width * (renderableHeight / imageObj.height);
+		xStart = (canvas.width - renderableWidth) / 2;
+		yStart = 0;
+	}
+
+	// If image's aspect ratio is greater than canvas's we fit on width
+	// and place the image centrally along height
+	else if(imageAspectRatio > canvasAspectRatio) {
+		renderableWidth = canvas.width
+		renderableHeight = imageObj.height * (renderableWidth / imageObj.width);
+		xStart = 0;
+		yStart = (canvas.height - renderableHeight) / 2;
+	}
+
+	// Happy path - keep aspect ratio
+	else {
+		renderableHeight = canvas.height;
+		renderableWidth = canvas.width;
+		xStart = 0;
+		yStart = 0;
+	}
+	context.drawImage(imageObj, xStart, yStart, renderableWidth, renderableHeight);
+};
