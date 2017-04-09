@@ -100,7 +100,8 @@ function loadImage() {
       colorBehaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
     }
     emitter.rate = imageRate;
-    var image = new Image()
+    var image = new Image();
+    image.crossOrigin = '';
     image.onload = function(e) {
       emitter.removeInitialize(textInit);
       context.textAlign = 'left';
