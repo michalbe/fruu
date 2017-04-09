@@ -18,5 +18,10 @@
   "homepage": "https://github.com/michalbe/fruu#readme",
   "dependencies": {
     "proton": "git+https://github.com/a-jie/Proton.git"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1"
   }
 }
