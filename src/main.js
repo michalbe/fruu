@@ -1,3 +1,4 @@
+import { Proton } from '../libs/proton.js';
 var canvas;
 var context;
 var proton;
