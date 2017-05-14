@@ -1,47 +1,49 @@
 import { Proton } from '../libs/proton.js';
-var canvas;
-var context;
-var proton;
-var renderer;
-var emitter;
-var textInit;
-var index;
-var randomBehaviour;
-var gravity;
-var outputCanvas;
-// var slide = ['grunt', 'jquery'];
-var textRate;
-var imageRate;
-var colorBehaviour;
 
-var defaults = {
-  fontSize: 300,
+const defaults = {
+  font_size: 300,
   color: ['random']
 };
 
-var currentSlide = 0;
+export class Fruu {
+  constructor(selector = '#fruu') {
 
-if (window.location.hash) {
-  currentSlide = parseInt(window.location.hash.replace('#', ''), 10);
-}
+    this.selector = selector;
+    this.canvas = document.createElement('canvas');
+    this.output_canvas = = document.querySelector(this.selector);
+    this.context = null;
+    this.proton = null;
+    this.renderer = null;
+    this.emitter = null;
+    this.text_init = null;
+    this.index = null;
+    this.random_behaviour = null;
+    this.gravity = null;
+    this.text_rate = null;
+    this.image_rate = null;
+    this.color_behaviour = null;
+    this.current_slide = 0;
 
-Main();
+    // If we're not starting from the first slide, handle this here
+    if (window.location.hash) {
+      this.current_slide = parseInt(window.location.hash.replace('#', ''), 10);
+    }
 
-function Main() {
-  outputCanvas = document.getElementById("fruu");
 
-  canvas = document.getElementById("textCanvas");
-  outputCanvas.width = canvas.width = window.innerWidth;
-  outputCanvas.height = canvas.height = window.innerHeight;
+    canvas
+    outputCanvas.width = canvas.width = window.innerWidth;
+    outputCanvas.height = canvas.height = window.innerHeight;
 
-  context = canvas.getContext('2d');
-  proton = new Proton;
-  emitter = new Proton.Emitter();
-  imageRate = new Proton.Rate(new Proton.Span(50, 10), new Proton.Span(.01));
-  textRate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
-  createProton();
-  loadImage();
-  tick();
+    context = canvas.getContext('2d');
+    proton = new Proton;
+    emitter = new Proton.Emitter();
+    imageRate = new Proton.Rate(new Proton.Span(50, 10), new Proton.Span(.01));
+    textRate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
+    createProton();
+    loadImage();
+    tick();
+
+  }
 }
 
 var changeSlide = function(dir) {
