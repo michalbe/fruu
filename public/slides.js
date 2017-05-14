@@ -1,7 +1,7 @@
 var slides = {
   header: 'HYANZA',
   footer: 'MICHALBE',
-  slides: [
+  data: [
     "HYANZA",
     "2014",
     "amsterdam",
