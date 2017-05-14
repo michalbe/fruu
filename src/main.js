@@ -10,17 +10,19 @@ export class Fruu {
 
     this.selector = selector;
     this.canvas = document.createElement('canvas');
-    this.output_canvas = = document.querySelector(this.selector);
-    this.context = null;
-    this.proton = null;
+    this.output_canvas = document.querySelector(this.selector);
+    this.context = canvas.getContext('2d');
+    this.proton = new Proton;
+    this.text_rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
+    this.image_rate = new Proton.Rate(new Proton.Span(50, 10), new Proton.Span(.01));
+    this.emitter = new Proton.Emitter();
+
     this.renderer = null;
-    this.emitter = null;
+
     this.text_init = null;
     this.index = null;
     this.random_behaviour = null;
     this.gravity = null;
-    this.text_rate = null;
-    this.image_rate = null;
     this.color_behaviour = null;
     this.current_slide = 0;
 
@@ -29,55 +31,75 @@ export class Fruu {
       this.current_slide = parseInt(window.location.hash.replace('#', ''), 10);
     }
 
+    document.addEventListener('keyup', this.handle_keys.bind(this));
 
-    canvas
-    outputCanvas.width = canvas.width = window.innerWidth;
-    outputCanvas.height = canvas.height = window.innerHeight;
+    this.output_canvas.width = this.canvas.width = window.innerWidth;
+    this.output_canvas.height = this.canvas.height = window.innerHeight;
 
-    context = canvas.getContext('2d');
-    proton = new Proton;
-    emitter = new Proton.Emitter();
-    imageRate = new Proton.Rate(new Proton.Span(50, 10), new Proton.Span(.01));
-    textRate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
-    createProton();
-    loadImage();
-    tick();
+    this.init_proton();
+    this.load_image();
+    this.tick();
+  }
 
+  init_proton() {
+  	this.emitter.addInitialize(new Proton.Position(new Proton.PointZone(0, 0)));
+  	this.emitter.addInitialize(new Proton.Mass(1));
+  	this.emitter.addInitialize(new Proton.Radius(4, 7));
+  	this.emitter.addInitialize(new Proton.Life(2));
+
+    this.randomBehaviour = new Proton.RandomDrift(2, 2, .2);
+  	this.gravity = new Proton.Gravity(0);
+  	this.emitter.addBehaviour(this.custom_scale_behaviour());
+  	this.emitter.addBehaviour(this.gravity);
+  	this.emitter.addBehaviour(this.random_behaviour);
+
+    this.color_behaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
+    this.emitter.addBehaviour(new Proton.Alpha(1, 0.5));
+  	this.emitter.addBehaviour(new Proton.CrossZone(
+      new Proton.RectZone(0, 0, this.canvas.width, this.canvas.height), 'collision')
+    );
+
+  	this.emitter.emit();
+
+  	this.proton.addEmitter(emitter);
+
+  	this.renderer = new Proton.Renderer('webgl', this.proton, this.output_canvas);
+  	this.renderer.start();
+  }
+
+  change_slide(dir) {
+    if (this.current_slide + dir === -1 || this.current_slide + dir === slides.data.length) {
+      return;
+    }
+
+    this.current_slide += dir;
+
+    window.location.hash = '#' + this.current_slide;
+
+    if (Math.random() > 0.3) {
+      this.random_behaviour.reset(30, 20, .01);
+      gravity.reset(0);
+    } else {
+      this.random_behaviour.reset(20, 20, .2);
+    	this.gravity.reset(3.5);
+    }
+
+    setTimeout(this.load_image, 500);
+  }
+
+  handle_keys(e) {
+    switch(e.keyCode) {
+      case 37:
+        this.change_slide(-1);
+        break;
+      case 13:
+      case 32:
+      case 39:
+        this.change_slide(1);
+        break;
+    }
   }
 }
-
-var changeSlide = function(dir) {
-  if (currentSlide + dir === -1 || currentSlide + dir === slides.slides.length) {
-    return;
-  }
-
-  currentSlide += dir;
-
-  window.location.hash = '#' + currentSlide;
-
-  if (Math.random() > 0.3) {
-    randomBehaviour.reset(30, 20, .01);
-    gravity.reset(0);
-  } else {
-    randomBehaviour.reset(20, 20, .2);
-  	gravity.reset(3.5);
-  }
-
-  setTimeout(loadImage, 500);
-}
-
-document.addEventListener('keyup', function(e) {
-  switch(e.keyCode) {
-    case 37:
-      changeSlide(-1);
-      break;
-    case 13:
-    case 32:
-    case 39:
-      changeSlide(1);
-      break;
-  }
-});
 
 function loadImage() {
 	// var rect = new Proton.Rectangle((canvas.width - e.target.width) / 2, (canvas.height - e.target.height) / 2, e.target.width, e.target.height);
@@ -116,53 +138,6 @@ function loadImage() {
     }
     image.src = slides.slides[currentSlide].image;
   }
-}
-
-function createProton(rect) {
-	//setRate
-	// emitter.rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.01));
-	// emitter.rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
-	//addInitialize
-	emitter.addInitialize(new Proton.Position(new Proton.PointZone(0, 0)));
-	emitter.addInitialize(new Proton.Mass(1));
-	emitter.addInitialize(new Proton.Radius(4, 7));
-	emitter.addInitialize(new Proton.Life(2));
-	//addBehaviour
-
-	randomBehaviour = new Proton.RandomDrift(2, 2, .2);
-	gravity = new Proton.Gravity(0);
-	emitter.addBehaviour(customScaleBehaviour());
-	emitter.addBehaviour(gravity);
-	emitter.addBehaviour(randomBehaviour);
-	// emitter.addBehaviour(new Proton.Color(['#00aeff', '#0fa954', '#54396e', '#e61d5f']));
-  colorBehaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
-  emitter.addBehaviour(new Proton.Alpha(1, 0.5));
-	emitter.addBehaviour(new Proton.CrossZone(new Proton.RectZone(0, 0, canvas.width, canvas.height), 'collision'));
-	emitter.emit();
-	//add emitter
-	proton.addEmitter(emitter);
-
-	//canvas renderer
-	renderer = new Proton.Renderer('webgl', proton, outputCanvas);
-	renderer.start();
-
-	//debug
-	// Proton.Debug.drawEmitter(proton, canvas, emitter);
-
-	// index = 0;
-	// window.addEventListener('mousedown', function(e) {
-	// 	index++;
-	// 	if (index % 3 == 1) {
-	// 		randomBehaviour.reset(2, 0, .2);
-	// 		gravity.reset(1.5);
-	// 	} else if (index % 3 == 2) {
-	// 		randomBehaviour.reset(50, 50, .1);
-	// 		gravity.reset(0);
-	// 	} else {
-	// 		randomBehaviour.reset(2, 2, .2);
-	// 		gravity.reset(0);
-	// 	}
-	// });
 }
 
 function customScaleBehaviour() {
