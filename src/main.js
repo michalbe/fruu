@@ -6,7 +6,7 @@ const defaults = {
   color: ['random']
 };
 
-export class Fruu {
+class Fruu {
   constructor(selector = '#fruu') {
 
     this.selector = selector;
@@ -137,7 +137,7 @@ export class Fruu {
       this.emitter.rate = this.image_rate;
       const image = new Image();
       image.crossOrigin = '';
-      image.onload = (e) =>
+      image.onload = (e) => {
         this.emitter.removeInitialize(this.text_init);
         this.context.textAlign = 'left';
         fit_image_on_canvas(e.target, this.canvas, this.context);
@@ -146,7 +146,7 @@ export class Fruu {
           0, 0,
           window.innerWidth, window.innerHeight
         );
-        
+
       	this.text_init = this.emitter.addInitialize(
           new Proton.P(new Proton.ImageZone(imagedata, 0, 50))
         );
@@ -195,3 +195,5 @@ export class Fruu {
   	this.proton.update();
   }
 }
+
+export default { Fruu };
