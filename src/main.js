@@ -1,4 +1,5 @@
 import { Proton } from '../libs/proton.js';
+import { fit_image_on_canvas } from './utils.js';
 
 const defaults = {
   font_size: 300,
@@ -37,7 +38,7 @@ export class Fruu {
     this.output_canvas.height = this.canvas.height = window.innerHeight;
 
     this.init_proton();
-    this.load_image();
+    this.render_slide();
     this.tick();
   }
 
@@ -63,12 +64,19 @@ export class Fruu {
 
   	this.proton.addEmitter(emitter);
 
-  	this.renderer = new Proton.Renderer('webgl', this.proton, this.output_canvas);
+  	this.renderer = new Proton.Renderer(
+      'webgl',
+      this.proton,
+      this.output_canvas
+    );
   	this.renderer.start();
   }
 
   change_slide(dir) {
-    if (this.current_slide + dir === -1 || this.current_slide + dir === slides.data.length) {
+    if (
+      this.current_slide + dir === -1 ||
+      this.current_slide + dir === slides.data.length
+    ) {
       return;
     }
 
@@ -84,7 +92,70 @@ export class Fruu {
     	this.gravity.reset(3.5);
     }
 
-    setTimeout(this.load_image, 500);
+    setTimeout(this.render_slide, 500);
+  }
+
+  render_slide() {
+    this.context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
+    this.emitter.removeBehaviour(this.color_behaviour);
+
+    if (typeof slides.data[this.current_slide] === 'string') {
+      this.color_behaviour = emitter.addBehaviour(
+        new Proton.Color(defaults.color)
+      );
+      this.emitter.removeInitialize(this.text_init);
+      this.emitter.rate = this.text_rate;
+      this.context.font = "500px Arial";
+      this.context.textAlign = 'center';
+      this.context.fillText(
+        slides.data[this.current_slide],
+        window.innerWidth / 2,
+        window.innerHeight / 2 + 50,
+        window.innerWidth * 0.95
+      );
+
+      const image_data = this.context.getImageData(
+        0, 0,
+        window.innerWidth, window.innerHeight
+      );
+
+    	this.text_init = emitter.addInitialize(
+        new Proton.P(new Proton.ImageZone(imagedata, 0, 50))
+      );
+      this.random_behaviour.reset(2, 2, .2);
+    	this.gravity.reset(0);
+
+    } else if (
+      typeof slides.data[this.current_slide] === 'object' &&
+      slides.data[this.current_slide].image
+    ) {
+
+      this.color_behaviour = emitter.addBehaviour(new Proton.Color(
+        slides.data[this.current_slide].color || defaults.color
+      ));
+
+      this.emitter.rate = this.image_rate;
+      const image = new Image();
+      image.crossOrigin = '';
+      image.onload = (e) =>
+        this.emitter.removeInitialize(this.text_init);
+        this.context.textAlign = 'left';
+        fit_image_on_canvas(e.target, this.canvas, this.context);
+
+        const image_data = this.context.getImageData(
+          0, 0,
+          window.innerWidth, window.innerHeight
+        );
+        
+      	this.text_init = this.emitter.addInitialize(
+          new Proton.P(new Proton.ImageZone(imagedata, 0, 50))
+        );
+
+        this.random_behaviour.reset(2, 2, .2);
+      	this.gravity.reset(0);
+      }
+      image.src = slides.data[this.current_slide].image;
+    }
   }
 
   handle_keys(e) {
@@ -99,98 +170,28 @@ export class Fruu {
         break;
     }
   }
-}
 
-function loadImage() {
-	// var rect = new Proton.Rectangle((canvas.width - e.target.width) / 2, (canvas.height - e.target.height) / 2, e.target.width, e.target.height);
-	// var rect = new Proton.Rectangle(0, 0,  window.innerWidth, window.innerHeight);
-	// context.drawImage(e.target, rect.x, rect.y);
-  context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
-  emitter.removeBehaviour(colorBehaviour);
-  if (typeof slides.slides[currentSlide] === 'string') {
-    colorBehaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
-    emitter.removeInitialize(textInit);
-    emitter.rate = textRate;
-    context.font = "500px Arial";
-    context.textAlign = 'center';
-    context.fillText(slides.slides[currentSlide], window.innerWidth/2, window.innerHeight/2 + 50, window.innerWidth*0.95);
-    var imagedata = context.getImageData(0, 0,  window.innerWidth, window.innerHeight);
-  	textInit = emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, 0, 50)));
-    randomBehaviour.reset(2, 2, .2);
-  	gravity.reset(0);
-  } else if (typeof slides.slides[currentSlide] === 'object' && slides.slides[currentSlide].image) {
-    if (slides.slides[currentSlide].color) {
-      colorBehaviour = emitter.addBehaviour(new Proton.Color(slides.slides[currentSlide].color));
-    } else {
-      colorBehaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
-    }
-    emitter.rate = imageRate;
-    var image = new Image();
-    image.crossOrigin = '';
-    image.onload = function(e) {
-      emitter.removeInitialize(textInit);
-      context.textAlign = 'left';
-      fitImageOn(e.target);
-      var imagedata = context.getImageData(0, 0, window.innerWidth, window.innerHeight);
-    	textInit = emitter.addInitialize(new Proton.P(new Proton.ImageZone(imagedata, 0, 50)));
-      randomBehaviour.reset(2, 2, .2);
-    	gravity.reset(0);
-    }
-    image.src = slides.slides[currentSlide].image;
+  custom_scale_behaviour() {
+  	return {
+  		initialize : (particle) => {
+  			particle.oldRadius = particle.radius;
+  			particle.scale = 0;
+  		},
+  		applyBehaviour : (particle) => {
+
+  			if (particle.energy >= 2 / 3) {
+  				particle.scale = (1 - particle.energy) * 3;
+  			} else if (particle.energy <= 1 / 3) {
+  				particle.scale = particle.energy * 3;
+  			}
+
+  			particle.radius = particle.oldRadius * particle.scale;
+  		}
+  	}
+  }
+
+  tick() {
+  	requestAnimationFrame(this.tick);
+  	this.proton.update();
   }
 }
-
-function customScaleBehaviour() {
-	return {
-		initialize : function(particle) {
-			particle.oldRadius = particle.radius;
-			particle.scale = 0;
-		},
-		applyBehaviour : function(particle) {
-			if (particle.energy >= 2 / 3) {
-				particle.scale = (1 - particle.energy) * 3;
-			} else if (particle.energy <= 1 / 3) {
-				particle.scale = particle.energy * 3;
-			}
-			particle.radius = particle.oldRadius * particle.scale;
-		}
-	}
-}
-
-function tick() {
-	requestAnimationFrame(tick);
-	proton.update();
-}
-
-var fitImageOn = function(imageObj) {
-	var imageAspectRatio = imageObj.width / imageObj.height;
-	var canvasAspectRatio = canvas.width / canvas.height;
-	var renderableHeight, renderableWidth, xStart, yStart;
-
-	// If image's aspect ratio is less than canvas's we fit on height
-	// and place the image centrally along width
-	if(imageAspectRatio < canvasAspectRatio) {
-		renderableHeight = canvas.height;
-		renderableWidth = imageObj.width * (renderableHeight / imageObj.height);
-		xStart = (canvas.width - renderableWidth) / 2;
-		yStart = 0;
-	}
-
-	// If image's aspect ratio is greater than canvas's we fit on width
-	// and place the image centrally along height
-	else if(imageAspectRatio > canvasAspectRatio) {
-		renderableWidth = canvas.width
-		renderableHeight = imageObj.height * (renderableWidth / imageObj.width);
-		xStart = 0;
-		yStart = (canvas.height - renderableHeight) / 2;
-	}
-
-	// Happy path - keep aspect ratio
-	else {
-		renderableHeight = canvas.height;
-		renderableWidth = canvas.width;
-		xStart = 0;
-		yStart = 0;
-	}
-	context.drawImage(imageObj, xStart, yStart, renderableWidth, renderableHeight);
-};
