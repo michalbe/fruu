@@ -12,7 +12,7 @@ class Fruu {
     this.selector = selector;
     this.canvas = document.createElement('canvas');
     this.output_canvas = document.querySelector(this.selector);
-    this.context = canvas.getContext('2d');
+    this.context = this.canvas.getContext('2d');
     this.proton = new Proton;
     this.text_rate = new Proton.Rate(new Proton.Span(50, 15), new Proton.Span(.02));
     this.image_rate = new Proton.Rate(new Proton.Span(50, 10), new Proton.Span(.01));
