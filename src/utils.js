@@ -1,3 +1,6 @@
+// I'm quite sure I've stolen this snippet from somewhere. If it feels like
+// something you've published somewhere or you recognize it somehow pls lemme
+// know so I'll be able to put some credentials here. @michalbe
 const fit_image_on_canvas = (image, canvas, context) => {
 	const image_aspect_ratio = image.width / image.height;
 	const canvas_aspect_ratio = canvas.width / canvas.height;
