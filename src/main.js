@@ -52,9 +52,12 @@ class Fruu {
   	this.gravity = new Proton.Gravity(0);
   	this.emitter.addBehaviour(this.custom_scale_behaviour());
   	this.emitter.addBehaviour(this.gravity);
-  	this.emitter.addBehaviour(this.random_behaviour);
 
-    this.color_behaviour = emitter.addBehaviour(new Proton.Color(defaults.color));
+    if (this.random_behaviour) {
+      this.emitter.addBehaviour(this.random_behaviour);
+    }
+
+    this.color_behaviour = this.emitter.addBehaviour(new Proton.Color(defaults.color));
     this.emitter.addBehaviour(new Proton.Alpha(1, 0.5));
   	this.emitter.addBehaviour(new Proton.CrossZone(
       new Proton.RectZone(0, 0, this.canvas.width, this.canvas.height), 'collision')
