@@ -65,7 +65,7 @@ class Fruu {
 
   	this.emitter.emit();
 
-  	this.proton.addEmitter(emitter);
+  	this.proton.addEmitter(this.emitter);
 
   	this.renderer = new Proton.Renderer(
       'webgl',
@@ -103,7 +103,7 @@ class Fruu {
     this.emitter.removeBehaviour(this.color_behaviour);
 
     if (typeof slides.data[this.current_slide] === 'string') {
-      this.color_behaviour = emitter.addBehaviour(
+      this.color_behaviour = this.emitter.addBehaviour(
         new Proton.Color(defaults.color)
       );
       this.emitter.removeInitialize(this.text_init);
@@ -122,7 +122,7 @@ class Fruu {
         window.innerWidth, window.innerHeight
       );
 
-    	this.text_init = emitter.addInitialize(
+    	this.text_init = this.emitter.addInitialize(
         new Proton.P(new Proton.ImageZone(imagedata, 0, 50))
       );
       this.random_behaviour.reset(2, 2, .2);
@@ -133,7 +133,7 @@ class Fruu {
       slides.data[this.current_slide].image
     ) {
 
-      this.color_behaviour = emitter.addBehaviour(new Proton.Color(
+      this.color_behaviour = this.emitter.addBehaviour(new Proton.Color(
         slides.data[this.current_slide].color || defaults.color
       ));
 
