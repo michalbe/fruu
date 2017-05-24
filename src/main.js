@@ -123,7 +123,7 @@ class Fruu {
       );
 
     	this.text_init = this.emitter.addInitialize(
-        new Proton.P(new Proton.ImageZone(imagedata, 0, 50))
+        new Proton.P(new Proton.ImageZone(image_data, 0, 50))
       );
       this.random_behaviour.reset(2, 2, .2);
     	this.gravity.reset(0);
@@ -151,7 +151,7 @@ class Fruu {
         );
 
       	this.text_init = this.emitter.addInitialize(
-          new Proton.P(new Proton.ImageZone(imagedata, 0, 50))
+          new Proton.P(new Proton.ImageZone(image_data, 0, 50))
         );
 
         this.random_behaviour.reset(2, 2, .2);
@@ -194,7 +194,7 @@ class Fruu {
   }
 
   tick() {
-  	requestAnimationFrame(this.tick);
+  	requestAnimationFrame(this.tick.bind(this));
   	this.proton.update();
   }
 }
