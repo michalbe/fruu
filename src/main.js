@@ -87,15 +87,19 @@ class Fruu {
 
     window.location.hash = '#' + this.current_slide;
 
-    if (Math.random() > 0.3) {
-      this.random_behaviour.reset(30, 20, .01);
-      gravity.reset(0);
-    } else {
-      this.random_behaviour.reset(20, 20, .2);
-    	this.gravity.reset(3.5);
+    if (this.random_behaviour && this.gravity) {
+      if (Math.random() > 0.3) {
+        this.random_behaviour.reset(30, 20, .01);
+        gravity.reset(0);
+      } else {
+        this.random_behaviour.reset(20, 20, .2);
+      	this.gravity.reset(3.5);
+      }
     }
 
-    setTimeout(this.render_slide, 500);
+    setTimeout(() => {
+      this.render_slide();
+    }, 500);
   }
 
   render_slide() {
@@ -125,8 +129,11 @@ class Fruu {
     	this.text_init = this.emitter.addInitialize(
         new Proton.P(new Proton.ImageZone(image_data, 0, 50))
       );
-      this.random_behaviour.reset(2, 2, .2);
-    	this.gravity.reset(0);
+
+      if (this.random_behaviour && this.gravity) {
+        this.random_behaviour.reset(2, 2, .2);
+      	this.gravity.reset(0);
+      }
 
     } else if (
       typeof slides.data[this.current_slide] === 'object' &&
@@ -154,8 +161,13 @@ class Fruu {
           new Proton.P(new Proton.ImageZone(image_data, 0, 50))
         );
 
-        this.random_behaviour.reset(2, 2, .2);
-      	this.gravity.reset(0);
+        if (this.random_behaviour) {
+          this.random_behaviour.reset(2, 2, .2);
+        }
+
+        if (this.gravity) {
+          this.gravity.reset(0);
+        }
       }
       image.src = slides.data[this.current_slide].image;
     }
