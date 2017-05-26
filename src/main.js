@@ -3,6 +3,8 @@ import { fit_image_on_canvas } from './utils.js';
 
 const defaults = {
   font_size: 300,
+  font_face: '500px Arial',
+  text_align: 'center',
   color: ['random']
 };
 
@@ -112,8 +114,8 @@ class Fruu {
       );
       this.emitter.removeInitialize(this.text_init);
       this.emitter.rate = this.text_rate;
-      this.context.font = "500px Arial";
-      this.context.textAlign = 'center';
+      this.context.font = defaults.font_face;
+      this.context.textAlign = defaults.text_align;
       this.context.fillText(
         slides.data[this.current_slide],
         window.innerWidth / 2,
