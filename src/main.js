@@ -8,9 +8,14 @@ const defaults = {
   color: ['random']
 };
 
-class Fruu {
-  constructor(selector = '#fruu') {
+class Presentation {
+  constructor(slides, selector = '#fruu') {
 
+    if (typeof slides === 'undefined') {
+      throw new Error('Gimme slides yo');
+    }
+    
+    this.slides = slides;
     this.selector = selector;
     this.canvas = document.createElement('canvas');
     this.output_canvas = document.querySelector(this.selector);
@@ -80,7 +85,7 @@ class Fruu {
   change_slide(dir) {
     if (
       this.current_slide + dir === -1 ||
-      this.current_slide + dir === slides.data.length
+      this.current_slide + dir === this.slides.data.length
     ) {
       return;
     }
@@ -108,7 +113,7 @@ class Fruu {
     this.context.clearRect(0, 0,  window.innerWidth, window.innerHeight);
     this.emitter.removeBehaviour(this.color_behaviour);
 
-    if (typeof slides.data[this.current_slide] === 'string') {
+    if (typeof this.slides.data[this.current_slide] === 'string') {
       this.color_behaviour = this.emitter.addBehaviour(
         new Proton.Color(defaults.color)
       );
@@ -117,7 +122,7 @@ class Fruu {
       this.context.font = defaults.font_face;
       this.context.textAlign = defaults.text_align;
       this.context.fillText(
-        slides.data[this.current_slide],
+        this.slides.data[this.current_slide],
         window.innerWidth / 2,
         window.innerHeight / 2 + 50,
         window.innerWidth * 0.95
@@ -138,12 +143,12 @@ class Fruu {
       }
 
     } else if (
-      typeof slides.data[this.current_slide] === 'object' &&
-      slides.data[this.current_slide].image
+      typeof this.slides.data[this.current_slide] === 'object' &&
+      this.slides.data[this.current_slide].image
     ) {
 
       this.color_behaviour = this.emitter.addBehaviour(new Proton.Color(
-        slides.data[this.current_slide].color || defaults.color
+        this.slides.data[this.current_slide].color || defaults.color
       ));
 
       this.emitter.rate = this.image_rate;
@@ -171,7 +176,7 @@ class Fruu {
           this.gravity.reset(0);
         }
       }
-      image.src = slides.data[this.current_slide].image;
+      image.src = this.slides.data[this.current_slide].image;
     }
   }
 
@@ -213,4 +218,4 @@ class Fruu {
   }
 }
 
-export default { Fruu };
+export default { Presentation };
