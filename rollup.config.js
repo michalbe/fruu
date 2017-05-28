@@ -6,7 +6,7 @@ import livereload from 'rollup-plugin-livereload'
 export default {
   entry: 'src/main.js',
   format: 'iife',
-  moduleName: 'Fruu',
+  moduleName: 'FRUU',
   dest: 'dist/fruu.js',
   plugins: [
     resolve({
