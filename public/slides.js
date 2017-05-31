@@ -1,80 +1,48 @@
 var slides = {
-  header: 'HYANZA',
-  footer: 'MICHALBE',
+  // those aren't supported yet
+  header: 'Fruu',
+  footer: '@MICHALBE',
+
+  // but those are
   data: [
-    "HYANZA",
-    "2014",
-    "amsterdam",
+    "The simplest",
+    "prezo tool",
+    "EVAH!",
     {
-      image: "images/bp.png",
-      color: ['#614ac5', '#614ac5', '#f8ea48']
+      image: "images/logo.png",
+      color: ['#ff00ff', '#ffffff']
     },
-    "2015",
-    "zanzibar",
-    "JELOcartel",
-    "apress",
+    "FRUU.JS",
+    "Supports just",
+    "TEXT",
+    "and transparent",
+    "'cliparts'.",
+    "Like this:",
     {
-      image: "images/ko.png",
-      color: ['#ff0000', '#ef5633', '#f8ea48']
-    },
-    "MVP",
-    "pivot",
-    "e-commerce",
-    "2016",
-    {
-      image: "images/glorya.png",
-      color: ["#ffffff", "#ff0000"]
-    },
-    "(demo?)",
-    "2017",
-    {
-      image: "images/africa.png"
-    },
-    "+4784",
-    "v0.5",
-    "what's new",
-    "components",
-    "smart search",
-    {
-      image: "images/bower.png",
-      color: ['#ef5633', '#fecb2f', '#2aaf2a', '#00acee']
+      image: "images/1.png",
+      color: ['#ef5633', '#f8ea48']
     },
     {
-      image: "images/jq.png",
-      color: ['#176bb1']
+      image: "images/2.png",
+      color: ['#ff00ff', '#ff0000']
     },
     {
-      image: "images/grunt.png",
-      color: ['#fba900', '#ffffff', '#463014']
+      image: "images/3.png",
+      color: ['#ffffff', '#ff0000']
     },
-    "new config",
-    "themes",
-    "index-root",
-    "build",
-    "l10n",
-    "multi-",
-    "-kurwa-",
-    "-store!",
-    "multistore",
-    "deps tree",
-    "what's missing",
-    "images",
-    "app state",
-    "tests :O",
-    "backend++",
-    "marketplace",
-    "admin",
     {
-      image: "images/ie.png",
-      color: ['#fba900', '#1ebbee']
+      image: "images/4.png",
+      color: ['#fba900', '#ef5633', '#463014']
     },
-    "sass, stylus",
     {
-      image: "images/php.png",
-      color: ['#7c8ebc', '#7c8ebc', '#7c8ebc' , '#ffffff']
+      image: "images/5.png",
+      color: ['#176bb1', '#1ebbee', '#ffffff']
+    },
+    {
+      image: "images/6.png",
+      color: ['#00ff00', '#bada55']
     },
     "thanks",
-    "Q?",
     "@michalbe"
   ]
 };
