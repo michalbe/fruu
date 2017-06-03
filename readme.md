@@ -1,5 +1,7 @@
 Fruu.js
 ----
+Simplest presentation tool.
 
-## Hello
-test
+![public/images/fruu.gif](public/images/fruu.gif)
+
+### What

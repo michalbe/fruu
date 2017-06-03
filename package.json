@@ -4,8 +4,7 @@
   "description": "",
   "main": "fruu.js",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "start": "rollup -c -w"
   },
   "repository": {
     "type": "git",
