@@ -57,7 +57,10 @@ The `data` array in `slide` contains the slides data (surprising, isn't it?). Th
   };
   ```
   Will transform transparent PNGs like this one:
+
   ![public/images/4.png](public/images/4.png)
+
+  
   into something like this:
   ![public/images/maple.gif](public/images/maple.gif)
 
