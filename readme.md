@@ -7,7 +7,7 @@ Particle-based presentation tool.
 
 ### What
 Fruu is the simplest text presentation tool ever. Is renders a single word or two per slide,
-using WebGL particle emitter (simple 'clipart' like images are also supported).
+using [Proton](https://github.com/a-jie/Proton), WebGL particle emitter (simple 'clipart' like images are also supported).
 
 ---
 ### Why
