@@ -4,6 +4,8 @@ Particle-based presentation tool.
 
 ![public/images/fruu.gif](public/images/fruu.gif)
 
+## [Demo](https://michalbe.github.io/fruu)
+
 
 ### What
 Fruu is the simplest text presentation tool ever. Is renders a single word or two per slide,
@@ -69,3 +71,5 @@ The `data` array in `slide` contains the slides data (surprising, isn't it?). Th
   ![public/images/maple.gif](public/images/maple.gif)
 
 Have fun!
+
+## [Demo](https://michalbe.github.io/fruu)
