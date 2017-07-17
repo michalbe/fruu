@@ -13,7 +13,7 @@ using [Proton](https://github.com/a-jie/Proton), WebGL particle emitter (simple 
 
 ---
 ### Why
-The biggest and most common mistake of the beginner speakers is putting too much text on their slides. This force audience to focus on reading them, not on what speaker is trying to say.
+The biggest and most common mistake of beginner speakers is putting too much text on their slides. This forces the audience to focus on reading and not on what speaker is trying to say.
 Fruu is solving this problem by allowing only one or two words per slide (in theory there's no limit, but longer sentences will be impossible to read).
 
 ---
